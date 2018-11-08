@@ -22,7 +22,7 @@ class PYBULLET(object):
         self._positions =[]
         self._convertdeg2rad = 57.295779578552 
         self._num_steps = 0
-        self._timestep = 0.01
+        self._timestep = 1./240.
         
         self._simulator = "PyBullet"
         self._physics_engine = ""
