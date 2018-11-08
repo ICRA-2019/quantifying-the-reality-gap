@@ -58,8 +58,9 @@ def set_target_thetas(num_steps, pid, experiment,simulator, simStep):
 
     return pid
     
-def open_vrep():
-    proc = subprocess.Popen(["cd /home/jack/Downloads/V-REP_PRO_EDU_V3_5_0_Linux && ./vrep.sh"], shell=True)
+def open_vrep(vrep_path):
+    terminal_string = "cd " + vrep_path + " && ./vrep.sh"
+    proc = subprocess.Popen([terminal_string], shell=True)
     time.sleep(8)
     proc.terminate()
 

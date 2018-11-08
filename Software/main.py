@@ -12,7 +12,8 @@ from Rotations import *
 experiment = "Single"          
 #experiment = "Double"
 #experiment = "Cube"
-repeats = 20
+repeats = 1
+vrep_path = "/home/jack/Downloads/V-REP_PRO_EDU_V3_5_0_Linux"
             
 if __name__ == '__main__':
     
@@ -28,7 +29,7 @@ if __name__ == '__main__':
         simulate.set_experiment(experiment)
         simulate.run_pybullet()
         
-    open_vrep()
+    open_vrep(vrep_path)
     for iteration in range(repeats):
         simulate = VREP()
         simulate.set_current_iteration(iteration)

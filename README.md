@@ -36,8 +36,9 @@ Software Directory:
 ## Running
 
 1. Add vrep.py, vrepConst.py and remoteApi.so files relevant for your distribution of V-Rep to the Software directory.
+2. Add the path to your V-Rep install to main.py as variable vrep_path.
 2. Uncomment the experiment you want to run in main.py.
-3. Run main.py
+4. Run main.py
 
 
 

@@ -30,7 +30,7 @@ class PYBULLET(object):
         self._current_iteration = 0
 
         #Setup PyBullet
-        self._physicsClient = connect(GUI)#or p.DIRECT for non-graphical version
+        self._physicsClient = connect(GUI)#or DIRECT for non-graphical version
         setAdditionalSearchPath(pybullet_data.getDataPath()) #optionally
         setGravity(0,0,-9.8)
         configureDebugVisualizer(COV_ENABLE_DEPTH_BUFFER_PREVIEW,enable=0)
@@ -62,21 +62,27 @@ class PYBULLET(object):
         
     def set_num_steps(self):
         self._num_steps = simSteps(self._experiment,self._timestep)
+        
+    def lock_joints(self):
+        for joint in range (getNumJoints(self._kinova)):
+          setJointMotorControl2(self._kinova,jointIndex=joint,controlMode=POSITION_CONTROL, targetPosition=0, force=2000)
     
     def run_pybullet(self):
         self.set_num_steps()
+        
+        self.lock_joints()
         for simStep in range(self._num_steps):
             
             self._pid = set_target_thetas(self._num_steps, self._pid,self._experiment,self._simulator,simStep)
             
             
             if simStep % 5 == 0:
-                for jointNum in range(7):
+                for jointNum in range(6):
                     self._theta[jointNum] = getJointState(self._kinova, jointNum)[0]
                     self._linearVelocity[jointNum] = self._pid[jointNum].get_velocity(math.degrees(self._theta[jointNum]))/self._convertdeg2rad
                     setJointMotorControl2(bodyIndex=self._kinova,jointIndex=jointNum,controlMode=VELOCITY_CONTROL,targetVelocity=self._linearVelocity[jointNum],force=2000)
                 
-#                positions.append([p.getLinkState(kinova,6,1)[0][0], p.getLinkState(kinova,6,1)[0][1],p.getLinkState(kinova,6,1)[0][2],p.getLinkState(kinova,6,1)[1][0],p.getLinkState(kinova,6,1)[1][1],p.getLinkState(kinova,6,1)[1][2],p.getLinkState(kinova,6,1)[1][3],p.getBasePositionAndOrientation(cubeUid)[0][0],p.getBasePositionAndOrientation(cubeUid)[0][1],p.getBasePositionAndOrientation(cubeUid)[0][2],p.getBasePositionAndOrientation(cubeUid)[1][0],p.getBasePositionAndOrientation(cubeUid)[1][1],p.getBasePositionAndOrientation(cubeUid)[1][2],p.getBasePositionAndOrientation(cubeUid)[1][3]])
+                self._positions.append([getLinkState(self._kinova,6,1)[0][0], getLinkState(self._kinova,6,1)[0][1],getLinkState(self._kinova,6,1)[0][2],getLinkState(self._kinova,6,1)[1][0],getLinkState(self._kinova,6,1)[1][1],getLinkState(self._kinova,6,1)[1][2],getLinkState(self._kinova,6,1)[1][3],getBasePositionAndOrientation(self._cubeUid)[0][0],getBasePositionAndOrientation(self._cubeUid)[0][1],getBasePositionAndOrientation(self._cubeUid)[0][2],getBasePositionAndOrientation(self._cubeUid)[1][0],getBasePositionAndOrientation(self._cubeUid)[1][1],getBasePositionAndOrientation(self._cubeUid)[1][2],getBasePositionAndOrientation(self._cubeUid)[1][3]])
     
     
             stepSimulation()
