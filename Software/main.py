@@ -12,7 +12,7 @@ from Rotations import *
 experiment = "Single"          
 #experiment = "Double"
 #experiment = "Cube"
-repeats = 1
+repeats = 20
 vrep_path = "/home/jack/Downloads/V-REP_PRO_EDU_V3_5_0_Linux"
             
 if __name__ == '__main__':

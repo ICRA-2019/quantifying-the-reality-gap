@@ -76,7 +76,7 @@ class PYBULLET(object):
             self._pid = set_target_thetas(self._num_steps, self._pid,self._experiment,self._simulator,simStep)
             
             
-            if simStep % 5 == 0:
+            if simStep % 12 == 0:
                 for jointNum in range(6):
                     self._theta[jointNum] = getJointState(self._kinova, jointNum)[0]
                     self._linearVelocity[jointNum] = self._pid[jointNum].get_velocity(math.degrees(self._theta[jointNum]))/self._convertdeg2rad
@@ -86,7 +86,7 @@ class PYBULLET(object):
     
     
             stepSimulation()
-            time.sleep(0.01)
+            time.sleep(self._timestep)
     
         disconnect()
     
